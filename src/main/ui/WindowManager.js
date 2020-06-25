@@ -8,7 +8,7 @@ import { debounce } from 'lodash'
 
 const defaultBrowserOptions = {
   titleBarStyle: 'hiddenInset',
-  show: false,
+  show: true,
   width: 1024,
   height: 768,
   webPreferences: {
@@ -71,7 +71,7 @@ export default class WindowManager extends EventEmitter {
 
   openWindow (page, options = {}) {
     const pageOptions = this.getPageOptions(page)
-    const { hidden } = options
+    const { hidden, theme } = options
     const autoHideWindow = this.userConfig['auto-hide-window']
     let window = this.windows[page] || null
     if (window) {
@@ -96,7 +96,7 @@ export default class WindowManager extends EventEmitter {
     })
 
     if (pageOptions.url) {
-      window.loadURL(pageOptions.url)
+      window.loadURL(`${pageOptions.url}?theme=${theme}`)
     }
 
     window.once('ready-to-show', () => {

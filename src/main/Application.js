@@ -23,8 +23,9 @@ import DockManager from './ui/DockManager'
 import ThemeManager from './ui/ThemeManager'
 import {
   APP_RUN_MODE,
-  AUTO_SYNC_TRACKER_INTERVAL,
-  AUTO_CHECK_UPDATE_INTERVAL
+  APP_THEME,
+  AUTO_CHECK_UPDATE_INTERVAL,
+  AUTO_SYNC_TRACKER_INTERVAL
 } from '@shared/constants'
 import { checkIsNeedRun } from '@shared/utils'
 import {
@@ -145,8 +146,8 @@ export default class Application extends EventEmitter {
 
   initTrayManager () {
     this.trayManager = new TrayManager({
-      theme: this.configManager.getUserConfig('tray-theme'),
       systemTheme: this.themeManager.getSystemTheme(),
+      theme: this.configManager.getUserConfig('tray-theme'),
       speedometer: this.configManager.getUserConfig('tray-speedometer')
     })
 
@@ -368,8 +369,14 @@ export default class Application extends EventEmitter {
   showPage (page, options = {}) {
     const { openedAtLogin } = options
     const autoHideWindow = this.configManager.getUserConfig('auto-hide-window')
+    const theme = this.configManager.getUserConfig('theme')
+    const currentTheme = (theme === APP_THEME.AUTO)
+      ? this.themeManager.getSystemTheme()
+      : theme
+
     return this.windowManager.openWindow(page, {
-      hidden: openedAtLogin || autoHideWindow
+      hidden: openedAtLogin || autoHideWindow,
+      theme: currentTheme
     })
   }
 
