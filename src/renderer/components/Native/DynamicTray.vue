@@ -43,7 +43,7 @@
     computed: {
       ...mapState('app', {
         iconStatus: state => state.stat.numActive > 0 ? 'active' : 'normal',
-        theme: state => state.systemTheme,
+        systemTheme: state => state.systemTheme,
         focused: state => state.trayFocused,
         uploadSpeed: state => state.stat.uploadSpeed,
         downloadSpeed: state => state.stat.downloadSpeed,
@@ -53,12 +53,12 @@
         return window.devicePixelRatio > 1 ? 2 : 1
       },
       currentTheme () {
-        const { theme, focused } = this
-        if (theme === APP_THEME.DARK) {
-          return theme
+        const { systemTheme, focused } = this
+        if (systemTheme === APP_THEME.DARK) {
+          return systemTheme
         }
 
-        return focused ? getInverseTheme(theme) : theme
+        return focused ? getInverseTheme(systemTheme) : systemTheme
       },
       iconKey () {
         const { iconStatus, currentTheme } = this

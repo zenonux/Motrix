@@ -180,18 +180,39 @@
   .el-select-dropdown {
     background-color: #3d3d3d;
     border-color: #606060;
+    &.is-multiple .el-select-dropdown__item.selected {
+      background-color: #2d2d2d;
+      &.hover {
+        color: #fff;
+        background-color: $--color-primary;
+      }
+    }
   }
 
   .el-select-dropdown__item {
     color: #eee;
     &.selected {
       color: $--color-primary;
+      background-color: #3d3d3d;
+      &.hover,
+      &:hover {
+        background-color: $--color-primary;
+      }
     }
     &.hover,
     &:hover {
       background-color: $--color-primary;
       color: #fff;
     }
+  }
+
+  .el-select-group__wrap:not(:last-of-type):after {
+    background-color: #5f5f5f;
+  }
+
+  .el-tag.el-tag--info {
+    background-color: #2d2d2d;
+    border-color: #606060;
   }
 
   .el-upload-dragger {

@@ -45,7 +45,8 @@
       loadStart () {
         const { webviewViewport } = this.$refs
         this.loading = Loading.service({
-          target: webviewViewport
+          target: webviewViewport,
+          background: 'rgba(0, 0, 0, 0.2)'
         })
       },
       loadStop () {

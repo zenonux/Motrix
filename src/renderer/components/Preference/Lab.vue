@@ -20,6 +20,7 @@
   import is from 'electron-is'
   import { mapState } from 'vuex'
 
+  import { APP_THEME } from '@shared/constants'
   import SubnavSwitcher from '@/components/Subnav/SubnavSwitcher'
   import Browser from '@/components/Browser'
   import '@/components/Icons/info-square'
@@ -31,9 +32,16 @@
       [Browser.name]: Browser
     },
     data () {
-      const { locale } = this.$store.state.preference.config
+      const {
+        locale,
+        theme,
+        systemTheme
+      } = this.$store.state.preference.config
+      const currentTheme = (theme === APP_THEME.AUTO) ? systemTheme : theme
+      const qs = `lite=true&lang=${locale}&theme=${currentTheme}`
+
       return {
-        src: `https://motrix.app/lab?lite=true&lang=${locale}`
+        src: `https://motrix.app/lab?${qs}`
       }
     },
     computed: {
@@ -69,7 +77,7 @@
 
 <style lang="scss">
 .lab-webview {
-  display: inline-flex;;
+  display: inline-flex;
   flex: 1;
   flex-basis: auto;
   overflow: auto;
