@@ -7,7 +7,7 @@
   import { mapState } from 'vuex'
   import api from '@/api'
   import {
-    addToRecentTask,
+    addToRecentTasks,
     getTaskFullPath,
     showItemInFolder
   } from '@/utils/native'
@@ -146,7 +146,7 @@
       handleDownloadComplete (task, isBT) {
         this.$store.dispatch('task/saveSession')
 
-        addToRecentTask(task)
+        addToRecentTasks(task)
 
         const path = getTaskFullPath(task)
         this.showTaskCompleteNotify(task, isBT, path)

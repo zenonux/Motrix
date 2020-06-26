@@ -663,6 +663,10 @@ export default class Application extends EventEmitter {
       })
     })
 
+    this.on('application:add-to-recent-tasks', (path) => {
+      app.addRecentDocument(path)
+    })
+
     this.on('application:clear-recent-tasks', () => {
       app.clearRecentDocuments()
     })

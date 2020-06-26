@@ -1,5 +1,6 @@
 import { EventEmitter } from 'events'
-import { app } from 'electron'
+import { extname } from 'path'
+import { app, shell } from 'electron'
 import is from 'electron-is'
 
 import ExceptionHandler from './core/ExceptionHandler'
@@ -100,8 +101,12 @@ export default class Launcher extends EventEmitter {
     app.on('open-file', (event, path) => {
       logger.info(`[Motrix] open-file: ${path}`)
       event.preventDefault()
-      this.file = path
-      this.sendFileToApplication()
+      if (extname(path).toLowerCase() === '.torrent') {
+        this.file = path
+        this.sendFileToApplication()
+      } else {
+        shell.showItemInFolder(path)
+      }
     })
   }
 

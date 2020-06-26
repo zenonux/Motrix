@@ -1,3 +1,4 @@
+import { ipcRenderer } from 'electron'
 import is from 'electron-is'
 import { access, constants } from 'fs'
 import { resolve } from 'path'
@@ -120,26 +121,13 @@ export function openDownloadDock (path) {
   remote.app.dock.downloadFinished(path)
 }
 
-export function addToRecentTask (task) {
+export function addToRecentTasks (task) {
   if (is.linux()) {
     return
   }
+
   const path = getTaskFullPath(task)
-  remote.app.addRecentDocument(path)
-}
-
-export function addToRecentTaskByPath (path) {
-  if (is.linux()) {
-    return
-  }
-  remote.app.addRecentDocument(path)
-}
-
-export function clearRecentTasks () {
-  if (is.linux()) {
-    return
-  }
-  remote.app.clearRecentDocuments()
+  ipcRenderer.send('command', 'application:add-to-recent-tasks', path)
 }
 
 export function getSystemTheme () {
