@@ -27,12 +27,13 @@ export function showItemInFolder (fullPath, { errorMsg }) {
   })
 }
 
-export function openItem (fullPath, { errorMsg }) {
+export const openItem = async (fullPath, { errorMsg }) => {
   if (!fullPath) {
     return
   }
-  const result = remote.shell.openItem(fullPath)
-  if (!result && errorMsg) {
+
+  const result = await ipcRenderer.invoke('open-path', fullPath)
+  if (result && errorMsg) {
     Message.error(errorMsg)
   }
   return result

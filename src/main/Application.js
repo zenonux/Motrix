@@ -744,7 +744,7 @@ export default class Application extends EventEmitter {
   }
 
   handleIpcInvokes () {
-    ipcMain.handle('get-app-config', async () => {
+    ipcMain.handle('get-app-config', async (event) => {
       const systemConfig = this.configManager.getSystemConfig()
       const userConfig = this.configManager.getUserConfig()
 
@@ -752,6 +752,15 @@ export default class Application extends EventEmitter {
         ...systemConfig,
         ...userConfig
       }
+      return result
+    })
+
+    ipcMain.handle('open-path', async (event, path) => {
+      if (!path) {
+        return
+      }
+
+      const result = await shell.openPath(path)
       return result
     })
   }
