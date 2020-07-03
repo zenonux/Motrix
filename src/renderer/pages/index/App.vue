@@ -60,6 +60,11 @@
       dirClass () {
         return `dir-${this.dir}`
       },
+      rootClass () {
+        const { themeClass = '', i18nClass = '', dirClass = '' } = this
+        const result = `${themeClass} ${i18nClass} ${dirClass}`
+        return result
+      },
       enableTraySpeedometer () {
         const { traySpeedometer, isMac, isRenderer } = this
         return traySpeedometer && isMac && isRenderer
@@ -67,22 +72,15 @@
     },
     methods: {
       updateRootClassName () {
-        const { themeClass = '', i18nClass = '', dirClass = '' } = this
-        const className = `${themeClass} ${i18nClass} ${dirClass}`
-        document.documentElement.className = className
+        const { rootClass } = this
+        document.documentElement.className = rootClass
       }
     },
     beforeMount () {
       this.updateRootClassName()
     },
     watch: {
-      themeClass (val, oldVal) {
-        this.updateRootClassName()
-      },
-      i18nClass (val, oldVal) {
-        this.updateRootClassName()
-      },
-      dirClass (val, oldVal) {
+      rootClass (val, oldVal) {
         this.updateRootClassName()
       }
     }
