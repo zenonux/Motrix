@@ -24,7 +24,7 @@ export default class Engine {
   }
 
   getStartSh () {
-    const { platform } = process
+    const { platform, arch } = process
     let basePath = resolve(app.getAppPath(), '..')
 
     if (is.dev()) {
@@ -36,14 +36,23 @@ export default class Engine {
       throw new Error(this.i18n.t('app.engine-damaged-message'))
     }
 
-    const binPath = join(basePath, `/engine/${binName}`)
+    let binPath = join(basePath, `/engine/${binName}`)
+    // add RaspberryPi armhf support
+    if (arch === 'arm') {
+      binPath = join(basePath, `/engine-armhf/${binName}`)
+    }
+
     const binIsExist = existsSync(binPath)
     if (!binIsExist) {
       logger.error('[Motrix] engine bin is not exist:', binPath)
       throw new Error(this.i18n.t('app.engine-missing-message'))
     }
 
-    const confPath = join(basePath, '/engine/aria2.conf')
+    let confPath = join(basePath, '/engine/aria2.conf')
+    // add RaspberryPi armhf support
+    if (arch === 'arm') {
+      confPath = join(basePath, '/engine-armhf/aria2.conf')
+    }
 
     const sessionPath = this.userConfig['session-path'] || getSessionPath()
     const sessionIsExist = existsSync(sessionPath)
